@@ -3,7 +3,7 @@ import mongoose,{Schema,Document} from "mongoose";
 export type ProyectType = Document & {
     projectName:string
     clientName:string
-    decription:string 
+    description:string 
 }
 
 const ProjectSchema : Schema = new Schema({
@@ -17,7 +17,7 @@ const ProjectSchema : Schema = new Schema({
         trim: true,
         required : true
     },
-    decription : {
+    description : {
         type:String,
         trim:true,
         required:true
