@@ -1,4 +1,4 @@
-import type { Request,Response } from "express"
+import { json, type Request,type Response } from "express"
 import Project from "../models/Project"
 
 export class ProjectController {
@@ -20,10 +20,27 @@ export class ProjectController {
     static getAllProjects = async (req: Request, res: Response) => {
         try {
             const projects = await Project.find()
-            res.status(200).json(projects)
+            return res.status(200).json(projects)
         } catch (error) {
-            res.status(500).send(error.message)
+            return res.status(500).send(error.message)
         }
+    }
+
+
+    static getProjectById = async (req:Request,res:Response) => {
+        try {
+            const {id} = req.params
+            const project = await Project.findById(id)
+            if(!project){
+                const error = new Error('Proyecto No encontrado')
+                return res.status(404).json({error:error.message})
+            }
+            return res.json(project)
+        } catch (error) {
+            return res.status(500).send(error.message)
+        }
+
+
     }
    
 
