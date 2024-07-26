@@ -1,4 +1,4 @@
-import { json, type Request,type Response } from "express"
+import { type Request,type Response } from "express"
 import Project from "../models/Project"
 
 export class ProjectController {
@@ -39,8 +39,21 @@ export class ProjectController {
         } catch (error) {
             return res.status(500).send(error.message)
         }
+    }
 
+    static updateProject = async(req:Request,res:Response) => {
 
+        const {id} = req.params
+         
+        try {
+            const project = await Project.findByIdAndUpdate(id,req.body)
+            await project.save()
+            res.send("Proyecto actualizado")
+
+        } catch (error) {
+            return res.status(500).send(error.message)
+
+        }
     }
    
 
