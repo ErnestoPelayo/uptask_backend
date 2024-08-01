@@ -5,6 +5,7 @@ import { ProjectController } from "../controllers/ProjectController"
 import {handleInputErrors} from '../middleware/validation'
 import { TaskController } from "../controllers/TaskController"
 import { validationProject } from "../middleware/project"
+import { taskBelonToProject, taskExist } from "../middleware/task"
 const router = Router()
 
 router.post('/',
@@ -35,7 +36,11 @@ router.delete('/:id',
 
 
 /* Tasks */      
-router.param('id_Project',validationProject)   
+
+router.param('id_Project',validationProject) 
+router.param('id_task',taskExist)
+router.param('id_task',taskBelonToProject)
+
 router.post('/:id_Project/task',
         param('id_Project').isMongoId().withMessage('Id Invalido'),
         body('name').notEmpty().withMessage("El Nombre de la tarea"),
@@ -61,8 +66,8 @@ router.delete('/:id_Project/task/:id_task',
 router.post('/:id_Project/task/:id_task/status',
         param('id_task').isMongoId().withMessage('Id Invalido'),
         body('status').notEmpty().withMessage('El estado es obligatorio'),
+        handleInputErrors,
         TaskController.updateStatus,
-        handleInputErrors
 )
 
 export default router
