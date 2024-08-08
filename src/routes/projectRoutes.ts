@@ -16,6 +16,7 @@ router.post('/',
     ProjectController.createProject
 )
 router.get('/',ProjectController.getAllProjects)
+
 router.get('/:id',
         param('id').isMongoId().withMessage('Id invalido'),
         handleInputErrors,
